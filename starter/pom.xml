@@ -35,4 +35,20 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <!-- tests need a stable shared secret to compute matching HMAC signatures -->
+                    <environmentVariables>
+                        <PAYMENT_WEBHOOK_SECRET>test-webhook-secret</PAYMENT_WEBHOOK_SECRET>
+                    </environmentVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
