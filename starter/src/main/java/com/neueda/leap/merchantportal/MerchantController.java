@@ -15,7 +15,14 @@ public class MerchantController {
     // pending/approved payout amounts.
     @GetMapping("/api/payouts/{payoutId}")
     public PayoutRequest getPayout(@PathVariable Long payoutId) {
-        return payoutRepository.findById(payoutId)
+        PayoutRequest payout = payoutRepository.findById(payoutId)
                 .orElseThrow(() -> new RuntimeException("Payout not found"));
+
+        if (!payout.getMerchantId().equals(currentMerchantProvider.currentMerchantId())) {
+            // 404 rather than 403 to avoid revealing that the payout exists
+            throw new RuntimeException("Payout not found");
+        }
+
+        return payout;
     }
 }
