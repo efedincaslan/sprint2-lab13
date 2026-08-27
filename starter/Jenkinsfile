@@ -10,33 +10,40 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                dir('starter') {
+                    sh 'mvn clean compile'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                dir('starter') {
+                    sh 'mvn test'
+                }
             }
         }
 
         stage('Security Scan') {
             steps {
-                // OWASP Dependency-Check
-                sh 'mvn org.owasp:dependency-check-maven:check'
+                dir('starter') {
+                    sh 'mvn org.owasp:dependency-check-maven:check'
+                }
             }
         }
 
         stage('Package') {
             steps {
-                sh 'mvn package -DskipTests'
+                dir('starter') {
+                    sh 'mvn package -DskipTests'
+                }
             }
         }
     }
 
     post {
         always {
-            junit 'target/surefire-reports/*.xml'
+            junit 'starter/target/surefire-reports/*.xml'
         }
 
         success {
