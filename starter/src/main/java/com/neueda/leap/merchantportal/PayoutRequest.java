@@ -4,7 +4,7 @@ public class PayoutRequest {
     private Long id;
     private Long merchantId;
     private Long requestedByUserId;
-    private String approvalStatus; // PENDING, APPROVED, REJECTED
+    private String approvalStatus; // PENDING, APPROVED, REJECTED, PAID, FAILED
     private Long approvedByUserId;
     private double amount;
 
