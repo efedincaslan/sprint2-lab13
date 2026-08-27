@@ -16,6 +16,12 @@ public class PayoutApprovalService {
     public void approve(Long payoutId, Long approvingUserId) {
         PayoutRequest payout = payoutRepository.findById(payoutId)
                 .orElseThrow(() -> new RuntimeException("Payout not found"));
+        
+        if (approvingUserId.equals(payout.getRequestedByUserId())) {
+            throw new IllegalStateException(
+                    "The user who requested the payout cannot approve it"
+            );
+        }
 
         payout.setApprovalStatus("APPROVED");
         payout.setApprovedByUserId(approvingUserId);
